@@ -102,7 +102,13 @@ void hash_table_insert(BasicHashTable *ht, char *key, char *value)
  ****/
 void hash_table_remove(BasicHashTable *ht, char *key)
 {
-
+  int hashed_key = hash(key, ht->capacity);
+  if(ht->storage[hashed_key]){
+    destroy_pair(ht->storage[hashed_key]);
+    ht->storage[hashed_key] = NULL;
+  }else{
+    printf("Can't find value");
+  }
 }
 
 /****
