@@ -93,6 +93,26 @@ HashTable *create_hash_table(int capacity)
 void hash_table_insert(HashTable *ht, char *key, char *value)
 {
   int hashed_key = hash(key, ht->capacity);
+  if(ht->storage[hashed_key]){
+    printf("key duplicate \n");
+    LinkedPair *pair = ht->storage[hashed_key];
+    while(pair->next == NULL){
+      if(pair->next == NULL){
+        LinkedPair *new_pair = create_pair(key, value);
+        pair->next = new_pair;
+      }
+      else if(strcmp(pair->key, key) == 0)
+      {
+        pair->value = value;
+      }
+      pair = pair->next;
+    }
+  }
+  else
+  {
+    LinkedPair *new_pair = create_pair(key, value);
+    ht->storage[hashed_key] = new_pair;
+  }
 }
 
 /*
